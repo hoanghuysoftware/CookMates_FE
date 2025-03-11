@@ -1,0 +1,12 @@
+.btn-main-color{
+    background-color: #f22726;
+    color: #fff;
+    font-weight: 500;
+    border-radius: 5px;
+}
+
+.btn-main-color:hover{
+    border: 1px solid #f22726;
+    background-color: #fff;
+    color: #f22726;
+}

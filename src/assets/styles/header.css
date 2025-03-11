@@ -1,0 +1,34 @@
+.header-container{
+    background-color: #f22726;
+}
+
+.logo-container{
+    width: 100%;
+    margin-left: 10px;
+}
+
+.logo-container img{
+    width: 100%;
+}
+
+.header-info{
+    color: #fff;
+}
+
+.header-item__title{
+    font-size: 0.8rem;
+}
+
+.favorite-container,
+.contact-container,
+.account-container {
+    transition: margin-top 0.3s ease, opacity 0.3s ease;
+}
+
+.favorite-container:hover,
+.account-container:hover,
+.contact-container:hover {
+    margin-top: -5px;
+    opacity: 0.8;
+    cursor: pointer;
+}
