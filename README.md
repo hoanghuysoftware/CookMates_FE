@@ -1,70 +1,65 @@
-# Getting Started with Create React App
+# 🍽️ CookMates - Frontend
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+CookMates là một ứng dụng chia sẻ và đánh giá công thức nấu ăn dành cho người dùng Việt Nam. Ứng dụng giúp người dùng tìm kiếm, lưu trữ, đánh giá và chia sẻ công thức nấu ăn một cách dễ dàng.
 
-## Available Scripts
+## ✨ Tính năng chính
+- 📖 Xem chi tiết công thức với từng bước nấu ăn.
+- ⭐ Đánh giá và bình luận công thức nấu ăn.
+- 📷 Tải lên và quản lý hình ảnh món ăn.
+- 👤 Quản lý tài khoản người dùng.
+- 🔍 Tìm kiếm công thức nấu ăn theo nguyên liệu có sẵn. (Đang phát triển chưa tích hợp)
 
-In the project directory, you can run:
+## 🛠 Công nghệ sử dụng
+- ⚛️ **ReactJS** - Frontend framework
+- 🎨 **Bootstrap** - Styling
+- 🔄 **React Query** - Quản lý trạng thái API
+- 🔗 **Axios** - Gọi API từ Backend
+- 🌐 **Cloudinary** - Lưu trữ hình ảnh
 
-### `npm start`
+## 🏗 Cài đặt & Chạy dự án
+1. **Clone repository**
+   ```sh
+   git clone https://github.com/yourusername/cookmates-frontend.git
+   cd cookmates-frontend
+   ```
+2. **Cài đặt dependencies**
+   ```sh
+   npm install
+   ```
+3. **Chạy ứng dụng**
+   ```sh
+   npm start
+   ```
+4. **Mở trình duyệt và truy cập**
+   ```
+   http://localhost:3000
+   ```
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+## 📁 Cấu trúc thư mục
+```
+📂 src
+ ┣ 📂 components      # Các component dùng chung
+ ┣ 📂 pages          # Các trang chính của ứng dụng
+ ┣ 📂 layout          # Các layout chính của ứng dụng
+ ┣ 📂 hooks          # Các custom hooks
+ ┣ 📂 router          # Chứa các router điều hướng page
+ ┣ 📂 services       # API calls
+ ┣ 📂 assets         # Hình ảnh, icon
+ ┣ 📂 styles         # CSS config
+ ┗ 📜 App.js         # Entry point của ứng dụng
+```
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+## 🤝 Đóng góp
+Mọi đóng góp đều được hoan nghênh! Nếu bạn có ý tưởng hoặc muốn phát triển thêm tính năng, hãy mở Pull Request hoặc tạo Issue.
 
-### `npm test`
+## 📩 Liên hệ
+Nếu bạn có câu hỏi hoặc góp ý, hãy liên hệ qua email: **hoanghuy.software@gmail.com**
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+## 📅 Lịch sử phát triển
 
-### `npm run build`
+- **[2025-03-01]** Khởi tạo dự án, thiết lập ReactJS và các liên quan.
+- **[2025-03-05]** Xây dựng trang chủ & giao diện tìm kiếm công thức.
+- **[2025-03-10]** Hoàn thiện tính năng đăng ký & đăng nhập người dùng.
+- **[2025-03-11]** Hoàn thành trang chi tiết và trang đánh giá công thức nấu ăn.
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
-
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
-
-### `npm run eject`
-
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
-
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
-
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
-
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
-
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
-
-### Code Splitting
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
-
-### Analyzing the Bundle Size
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
-
-### Making a Progressive Web App
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
