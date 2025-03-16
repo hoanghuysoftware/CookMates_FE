@@ -8,6 +8,8 @@
 }
 .review-list{
     padding: 0 20px;
+    height: 400px;
+    overflow-y: scroll;
 }
 
 .review-item {

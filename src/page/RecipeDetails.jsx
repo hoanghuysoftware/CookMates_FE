@@ -5,7 +5,7 @@ import Review from '../components/Review.jsx'
 
 const RecipeDetails = () => {
     return (
-        <div className="bg-white main-content mt-3">
+        <div className="bg-white main-content mt-5">
             <nav className='ps-3' style={{ "--bs-breadcrumb-divider": "'>'" }} aria-label="breadcrumb">
                 <ol className="breadcrumb">
                     <li className="breadcrumb-item">

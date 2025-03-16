@@ -18,17 +18,59 @@
 .header-item__title{
     font-size: 0.8rem;
 }
-
+.account-container{
+    position: relative;
+}
 .favorite-container,
-.contact-container,
-.account-container {
+.contact-container{
     transition: margin-top 0.3s ease, opacity 0.3s ease;
 }
 
 .favorite-container:hover,
-.account-container:hover,
 .contact-container:hover {
     margin-top: -5px;
     opacity: 0.8;
     cursor: pointer;
+}
+.account-container:hover{
+    cursor: pointer;
+}
+.account-container:hover .title-user__pop{
+    display: block;
+}
+
+.title-user__pop {
+    display: none;
+    position: absolute;
+    height: auto;
+    background-color: #fff;
+    z-index: 2;
+    left: -20px;
+    border-radius: 5px;
+}
+
+.title-user__pop::after{
+    position: absolute;
+    content: "";
+    width: 150px;
+    height: 20px;
+    top: calc(0% - 5px);
+    left: 0;
+}
+
+.user-pop__container {
+    padding: 10px 0;
+}
+
+.user-pop__item p {
+    width: 100%;
+    padding: 10px 20px;
+    text-decoration: none;
+    color: #313131;
+    margin-bottom: 0;
+}
+
+.user-pop__item p:hover {
+    color: #fff;
+    background-color: rgba(247, 78, 78, 0.984);
 }

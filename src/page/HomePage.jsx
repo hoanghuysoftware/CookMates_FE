@@ -6,7 +6,7 @@ import '../assets/styles/mainlayout.css'
 
 const HomePage = () => {
     return (
-        <div className="bg-white main-content">
+        <div className="bg-white main-content mt-lg-5">
             <Banner />
             <WithSidebarLayout>
                 <div className="home-left-content">

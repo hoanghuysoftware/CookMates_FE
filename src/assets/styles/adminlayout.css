@@ -1,0 +1,59 @@
+.admin-layout {
+  display: flex;
+}
+
+.dashboard {
+  width: 250px; /* Chiều rộng cố định */
+  height: 100vh; /* Chiếm toàn bộ chiều cao màn hình */
+  position: fixed; /* Giữ cố định khi cuộn */
+  left: 0;
+  top: 0;
+  background-color: #343a40; /* Màu nền */
+  color: white;
+  overflow-y: auto; /* Nếu menu dài thì có thể cuộn bên trong */
+  padding: 20px 0;
+}
+
+.dashboard-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  position: sticky;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  height: 98vh; 
+}
+
+.dashboard-img img {
+  max-width: 80%;
+}
+
+.dashboard-list {
+  width: 100%;
+}
+
+.dashboard-item {
+  width: 100%;
+  text-align: center;
+  margin-bottom: 10px;
+}
+
+.dashboard-item__link {
+  text-decoration: none;
+  color: white;
+  padding: 10px;
+  display: block;
+  transition: background 0.3s ease;
+}
+
+.dashboard-item__link:hover {
+  background-color: #495057;
+}
+
+.dashboard-item__link.active {
+  font-weight: bold;
+  background-color: #ffc107; /* Màu nền khi active */
+  color: black; /* Màu chữ khi active */
+  border-radius: 5px;
+}

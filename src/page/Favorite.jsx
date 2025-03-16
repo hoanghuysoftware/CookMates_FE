@@ -14,7 +14,7 @@ const Favorite = () => {
         console.log(newPage)
     };
     return (
-        <div className="bg-white main-content mt-3">
+        <div className="bg-white main-content mt-5">
             <div className="favorite-content">
                 <div className="favorite-header d-flex justify-content-between border-bottom mb-4">
                     <div className="favorite-total d-flex align-items-center">

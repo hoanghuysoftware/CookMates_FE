@@ -3,13 +3,19 @@ import LoginPage from "../page/LoginPage";
 import HomePage from "../page/HomePage";
 import AuthLayout from "../layout/AuthLayout";
 import MainLayout from "../layout/MainLayout";
+import AdminLayout from "../layout/AdminLayout";
 import Category from "../page/Category";
 import RecipeDetails from "../page/RecipeDetails";
 import Favorite from "../page/Favorite";
+import HomeAdmin from "../page/HomeAdmin";
 const AppRouter = () => {
     return (
         <Router>
             <Routes>
+                {/* AdminLayout */}
+                <Route path="/admin/categories" element={<AdminLayout> <CategoryAdmin /> </AdminLayout>} />
+                <Route path="/admin" element={<AdminLayout> <HomeAdmin /> </AdminLayout>} />
+
                 {/* MainLayout */}
                 <Route path="/" element={<MainLayout> <HomePage /> </MainLayout>} />
                 <Route path="/:categoryName" element={<MainLayout> <Category /> </MainLayout>} />
