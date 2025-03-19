@@ -49,6 +49,7 @@
 
 .dashboard-item__link:hover {
   background-color: #495057;
+  color: aliceblue;
 }
 
 .dashboard-item__link.active {

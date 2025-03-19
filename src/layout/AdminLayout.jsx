@@ -3,7 +3,7 @@ import '../assets/styles/adminlayout.css'
 
 const AdminLayout = ({ children }) => {
   return (
-    <div className="row gx-5">
+    <div className="row g-1">
       <div className="col col-3 bg-secondary position-relative">
         <div className="dashboard-container p-3">
           <div className="dashboard-img border-bottom border-light pb-3">
@@ -17,7 +17,7 @@ const AdminLayout = ({ children }) => {
                     ? 'dashboard-item__link active'
                     : 'dashboard-item__link'
                 }
-                to="/admin"
+                to="/admin/home"
               >
                 Trang chủ
               </NavLink>
@@ -85,9 +85,11 @@ const AdminLayout = ({ children }) => {
           </div>
         </div>
       </div>
-      <div className="col col-9">
-        <div className="bg-success-subtle">header top admin</div>
-        {children}
+      <div className="col col-9 bg-gary-admin">
+        <div className="bg-success bg-gradient">header top admin</div>
+        <div className="bg-white">
+          {children}
+        </div>
       </div>
     </div>
   );

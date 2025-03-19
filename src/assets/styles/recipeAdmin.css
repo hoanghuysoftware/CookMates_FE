@@ -1,0 +1,23 @@
+.nav-tabs {
+    border-bottom: 2px solid #ddd;
+}
+
+.nav-tabs .nav-link {
+    font-weight: bold;
+    color: #555;
+    padding: 12px 20px;
+    border: none;
+    border-bottom: 3px solid transparent;
+    transition: all 0.3s ease-in-out;
+}
+
+.nav-tabs .nav-link:hover {
+    color: #007bff;
+    background-color: #f8f9fa;
+}
+
+.nav-tabs .nav-link.active {
+    color: #007bff;
+    border-bottom: 3px solid #007bff;
+    background-color: #e9ecef;
+}

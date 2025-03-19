@@ -1,0 +1,16 @@
+.category-admin__content{
+    background-color: #fff;
+    border-radius: 10px;
+    margin-top: 10px;
+    padding-bottom: 20px;
+}
+.category-title{
+    font-size: 1.5rem;
+    color: #313131;
+    text-transform: uppercase;
+    margin-bottom: 10px;
+}
+
+.category-admin__table,
+.category-admin__form{
+}
