@@ -1,7 +1,14 @@
 import { NavLink } from 'react-router-dom';
-import '../assets/styles/adminlayout.css'
+import '../assets/styles/adminlayout.css';
 
 const AdminLayout = ({ children }) => {
+  const userName = 'Nguyễn Hoàng Huy'; // Giả định tên user, có thể lấy từ context hoặc API
+
+  const handleLogout = () => {
+    // Xử lý đăng xuất tại đây
+    console.log('User logged out');
+  };
+
   return (
     <div className="row g-1">
       <div className="col col-3 bg-secondary position-relative">
@@ -85,11 +92,20 @@ const AdminLayout = ({ children }) => {
           </div>
         </div>
       </div>
-      <div className="col col-9 bg-gary-admin">
-        <div className="bg-success bg-gradient">header top admin</div>
-        <div className="bg-white">
-          {children}
+      <div className="col col-9">
+        <div className="d-flex justify-content-between align-items-center bg-warning bg-gradient p-3">
+          <div className="d-flex align-items-center">
+            <i className="fa-solid fa-circle-user me-2"></i>
+            <span className='fw-bold'>{userName}</span>
+          </div>
+          <button
+            className="btn btn-danger btn"
+            onClick={handleLogout}
+          >
+            Đăng xuất
+          </button>
         </div>
+        <div className=" px-3">{children}</div>
       </div>
     </div>
   );

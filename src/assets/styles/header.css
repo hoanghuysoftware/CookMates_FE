@@ -62,7 +62,9 @@
     padding: 10px 0;
 }
 
+.user-pop__item-link,
 .user-pop__item p {
+    display: block;
     width: 100%;
     padding: 10px 20px;
     text-decoration: none;
@@ -70,7 +72,9 @@
     margin-bottom: 0;
 }
 
+.user-pop__item-link:hover,
 .user-pop__item p:hover {
     color: #fff;
     background-color: rgba(247, 78, 78, 0.984);
 }
+

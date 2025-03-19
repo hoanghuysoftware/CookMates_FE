@@ -58,12 +58,20 @@ const Header = () => {
                 </div>
                 <h6 className="header-item__title">Người dùng</h6>
                 <div className="title-user__pop shadow-lg">
-                  <div className="user-pop__container">
+                  <div className="user-pop__container  text-start">
                     <div className="user-pop__item">
-                      <p className="d-block">Quản lý tài khoản</p>
+                      {/* <p className="d-block"></p> */}
+                      <Link className="user-pop__item-link" to={"/userID/account"}>Quản lý tài khoản</Link>
+
                     </div>
                     <div className="user-pop__item">
-                      <p onClick={handleLogout} className="d-block">
+                      <Link className="user-pop__item-link" to={"/userID/recipe/add"}>Thêm công thức</Link>
+                    </div>
+                    <div className="user-pop__item">
+                      <Link className="user-pop__item-link" to={"/userID/recipe"}>Công thức của tôi</Link>
+                    </div>
+                    <div className="user-pop__item">
+                      <p onClick={handleLogout} className="d-block pt-2 border-top">
                         Đăng xuất
                       </p>
                     </div>

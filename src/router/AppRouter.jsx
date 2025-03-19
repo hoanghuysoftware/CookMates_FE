@@ -11,11 +11,16 @@ import Favorite from "../page/Favorite";
 import HomeAdmin from "../page/HomeAdmin";
 import IngredientAdmin from "../page/IngredientAdmin";
 import RecipeAdmin from "../page/RecipeAdmin";
+import UserAdmin from "../page/UserAdmin";
+import UserAddRecipe from "../page/UserAddRecipe";
+import UserAllRecipe from "../page/UserAllRecipe";
+
 const AppRouter = () => {
     return (
         <Router>
             <Routes>
                 {/* AdminLayout */}
+                <Route path="/admin/user" element={<AdminLayout> <UserAdmin /> </AdminLayout>} />
                 <Route path="/admin/recipe" element={<AdminLayout> <RecipeAdmin /> </AdminLayout>} />
                 <Route path="/admin/ingredient" element={<AdminLayout> <IngredientAdmin /> </AdminLayout>} />
                 <Route path="/admin/categories" element={<AdminLayout> <CategoryAdmin /> </AdminLayout>} />
@@ -26,6 +31,9 @@ const AppRouter = () => {
                 <Route path="/:categoryName" element={<MainLayout> <Category /> </MainLayout>} />
                 <Route path="/user/:id" element={<MainLayout> <Favorite /> </MainLayout>} />
                 <Route path="/recipe/:id" element={<MainLayout> <RecipeDetails /> </MainLayout>} />
+                <Route path="/userID/recipe" element={<MainLayout> <UserAllRecipe /> </MainLayout>} />
+                <Route path="/userID/recipe/add" element={<MainLayout> <UserAddRecipe /> </MainLayout>} />
+
 
                 {/* Login and Register */}
                 <Route path="/login" element={<AuthLayout> <LoginPage /> </AuthLayout>} />
