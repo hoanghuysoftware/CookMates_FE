@@ -66,7 +66,7 @@ const RecipeDetails = () => {
                             <img src={`${process.env.PUBLIC_URL}/4.jpg`} alt="" className="recipe-content__img" />
                         </div>
 
-                        <div className="recipe-content__result">
+                        <div className="recipe-content__result mt-3">
                             <h4 className="recipe-content__title">3. Thành phẩm</h4>
                             <img src={`${process.env.PUBLIC_URL}/item.jpg`} alt="" className="recipe-content__img" />
                             <p className='recipe-result__content'>
