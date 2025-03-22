@@ -61,5 +61,8 @@ Nếu bạn có câu hỏi hoặc góp ý, hãy liên hệ qua email: **hoanghuy
 - **[2025-03-05]** Xây dựng trang chủ & giao diện tìm kiếm công thức.
 - **[2025-03-10]** Hoàn thiện tính năng đăng ký & đăng nhập người dùng.
 - **[2025-03-11]** Hoàn thành trang chi tiết và trang đánh giá công thức nấu ăn.
+- **[2025-03-15]** Hoàn thành trang quản lý dành cho Admin.
+- **[2025-03-20]** Hoàn thiện UI quản lý thông tin người dùng.
+- **[2025-03-22]** Update UI quản lý thông tin người dùng.
 
 
