@@ -14,7 +14,7 @@ const AddRecipe = () => {
     });
 
     const [customIngredient, setCustomIngredient] = useState("");
-    const availableIngredients = [
+    const [availableIngredients, setAvailableIngredients] = useState([
         { value: "Thịt gà", label: "Thịt gà" },
         { value: "Thịt bò", label: "Thịt bò" },
         { value: "Cà chua", label: "Cà chua" },
@@ -23,7 +23,20 @@ const AddRecipe = () => {
         { value: "Ớt", label: "Ớt" },
         { value: "Dầu ăn", label: "Dầu ăn" },
         { value: "Nước mắm", label: "Nước mắm" }
+    ]);
+
+
+    const [categories, setCategories] = useState([]);
+    const availableCategories = [
+        { value: "Món chính", label: "Món chính" },
+        { value: "Món phụ", label: "Món phụ" },
+        { value: "Tráng miệng", label: "Tráng miệng" },
+        { value: "Nước uống", label: "Nước uống" }
     ];
+    const handleCategoryChange = (selectedOptions) => {
+        setCategories(selectedOptions.map(option => option.value));
+        setRecipe({ ...recipe, categories: selectedOptions.map(option => option.value) });
+    };
 
     const handleChange = (e) => {
         const { name, value } = e.target;
@@ -41,6 +54,7 @@ const AddRecipe = () => {
     const handleAddCustomIngredient = () => {
         if (customIngredient.trim() !== "") {
             const newIngredient = { value: customIngredient, label: customIngredient };
+            setAvailableIngredients([...availableIngredients, newIngredient]);
             setRecipe({ ...recipe, ingredients: [...recipe.ingredients, customIngredient] });
             setCustomIngredient("");
         }
@@ -96,6 +110,16 @@ const AddRecipe = () => {
                     <div className="mb-3">
                         <label className="form-label">Thời gian chuẩn bị</label>
                         <input type="text" className="form-control" name="preTime" value={recipe.preTime} onChange={handleChange} required />
+                    </div>
+
+                    <div className="mb-3">
+                        <label className="form-label">Danh mục</label>
+                        <Select
+                          options={availableCategories}
+                          isMulti
+                          value={availableCategories.filter(option => categories.includes(option.value))}
+                          onChange={handleCategoryChange}
+                        />
                     </div>
 
                     <div className="mb-3">
