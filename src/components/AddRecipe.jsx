@@ -1,7 +1,10 @@
 import { useState } from "react";
 import Select from "react-select";
+import { useDispatch, useSelector } from 'react-redux';
+import { createIngredient } from '../features/ingredient/ingredientSlice';
 
 const AddRecipe = () => {
+    const dispatch = useDispatch();
     const [recipe, setRecipe] = useState({
         name: "",
         ingredients: [],
@@ -14,25 +17,28 @@ const AddRecipe = () => {
     });
 
     const [customIngredient, setCustomIngredient] = useState("");
-    const [availableIngredients, setAvailableIngredients] = useState([
-        { value: "Thịt gà", label: "Thịt gà" },
-        { value: "Thịt bò", label: "Thịt bò" },
-        { value: "Cà chua", label: "Cà chua" },
-        { value: "Hành tây", label: "Hành tây" },
-        { value: "Tỏi", label: "Tỏi" },
-        { value: "Ớt", label: "Ớt" },
-        { value: "Dầu ăn", label: "Dầu ăn" },
-        { value: "Nước mắm", label: "Nước mắm" }
-    ]);
+    const {data: dataIngredients} = useSelector(state => state.ingredients)
+    const availableIngredients = dataIngredients.map(item => {
+        return {value: item.id, label: item.name}
+    })
+    // const [availableIngredients, setAvailableIngredients] = useState([
+    //     { value: "Thịt gà", label: "Thịt gà" },
+    //     { value: "Thịt bò", label: "Thịt bò" },
+    //     { value: "Cà chua", label: "Cà chua" },
+    //     { value: "Hành tây", label: "Hành tây" },
+    //     { value: "Tỏi", label: "Tỏi" },
+    //     { value: "Ớt", label: "Ớt" },
+    //     { value: "Dầu ăn", label: "Dầu ăn" },
+    //     { value: "Nước mắm", label: "Nước mắm" }
+    // ]);
 
 
     const [categories, setCategories] = useState([]);
-    const availableCategories = [
-        { value: "Món chính", label: "Món chính" },
-        { value: "Món phụ", label: "Món phụ" },
-        { value: "Tráng miệng", label: "Tráng miệng" },
-        { value: "Nước uống", label: "Nước uống" }
-    ];
+    const {data: dataCategories, status} = useSelector(state => state.categories)
+    const availableCategories = dataCategories.map(item => {
+        return {value: item.id, label: item.name}
+    })
+
     const handleCategoryChange = (selectedOptions) => {
         setCategories(selectedOptions.map(option => option.value));
         setRecipe({ ...recipe, categories: selectedOptions.map(option => option.value) });
@@ -53,9 +59,12 @@ const AddRecipe = () => {
 
     const handleAddCustomIngredient = () => {
         if (customIngredient.trim() !== "") {
+            dispatch(createIngredient({ name: customIngredient }));
+            // Cập nhật danh sách ingredients tạm thời
             const newIngredient = { value: customIngredient, label: customIngredient };
-            setAvailableIngredients([...availableIngredients, newIngredient]);
             setRecipe({ ...recipe, ingredients: [...recipe.ingredients, customIngredient] });
+            // Cập nhật danh sách options của Select
+            availableIngredients.push(newIngredient);
             setCustomIngredient("");
         }
     };

@@ -2,50 +2,59 @@ import { useEffect, useState } from 'react';
 import Button from '../components/Button';
 import '../assets/styles/ingredientadmin.css';
 import ingredientService from '../service/IngredientService';
+import { useDispatch, useSelector } from 'react-redux';
+import {
+  createIngredient,
+  deleteIngredient,
+  fetchIngredient,
+  updateIngredient,
+} from '../features/ingredient/ingredientSlice';
 
 const IngredientAdmin = () => {
+  const dispatch = useDispatch();
   const [ingredient, setIngredient] = useState([]);
+  const {data: ingredients, status} = useSelector(state => state.ingredients)
   const [editIngredient, setEditIngredient] = useState(null);
   const [ingredientName, setIngredientName] = useState('');
 
   useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const response = await ingredientService.getAllIngredients();
-        console.log(response);
-        setIngredient(response.data);
-      } catch (error) {
-        console.log('Error when fetching data of ingredient');
-      }
-    };
-    fetchData();
-  }, []);
+    if (status === "idle") {
+      dispatch(fetchIngredient()); // Chỉ gọi API nếu chưa có dữ liệu
+    }
+  }, [status, dispatch]);
 
   const handleSaveButton = async (event) => {
     event.preventDefault();
-    try {
-      let response;
-      if (editIngredient) {
-        response = await ingredientService.updateIngredient(editIngredient.id, { name: ingredientName });
-      } else {
-        response = await ingredientService.createIngredient({ name: ingredientName });
-      }
-
-      // Nếu API trả về thành công
-      if (response.status) {
-        setIngredient(prev => (editIngredient) ?
-          prev.map(ing => ing.id === editIngredient.id ? response.data : ing)
-          : [...prev, response.data],
-        );
-        setIngredientName('');
-        setEditIngredient(null);
-      } else {
-        alert(response.message || 'Có lỗi xảy ra!');
-      }
-    } catch (error) {
-      console.error('Error saving category:', error);
-      alert('Có lỗi xảy ra! Vui lòng thử lại.');
+    if(editIngredient){
+      dispatch(updateIngredient({ id: editIngredient.id, name: ingredientName }))
+    }else {
+      dispatch(createIngredient({ name: ingredientName }))
     }
+    setIngredientName('');
+    setEditIngredient(null);
+    // try {
+    //   let response;
+    //   if (editIngredient) {
+    //     response = await ingredientService.updateIngredient(editIngredient.id, { name: ingredientName });
+    //   } else {
+    //     response = await ingredientService.createIngredient({ name: ingredientName });
+    //   }
+    //
+    //   // Nếu API trả về thành công
+    //   if (response.status) {
+    //     setIngredient(prev => (editIngredient) ?
+    //       prev.map(ing => ing.id === editIngredient.id ? response.data : ing)
+    //       : [...prev, response.data],
+    //     );
+    //     setIngredientName('');
+    //     setEditIngredient(null);
+    //   } else {
+    //     alert(response.message || 'Có lỗi xảy ra!');
+    //   }
+    // } catch (error) {
+    //   console.error('Error saving ingredient:', error);
+    //   alert('Có lỗi xảy ra! Vui lòng thử lại.');
+    // }
   };
 
   const handleUpdateClick = (ingredient) => {
@@ -53,8 +62,14 @@ const IngredientAdmin = () => {
     setIngredientName(ingredient.name);
   };
 
-  const handleDeleteClick = (id) => {
+  const handleDeleteClick = async (id) => {
     if (window.confirm('Bạn có chắc chắn muốn xóa nguyên liệu này không?')) {
+      dispatch(deleteIngredient(id))
+      // try {
+      //   await ingredientService.deleteIngredient(id);
+      // }catch (error){
+      //   console.log("Error deleting ingredient !")
+      // }
       setIngredient(ingredient.filter(ing => ing.id !== id));
     }
   };
@@ -75,7 +90,7 @@ const IngredientAdmin = () => {
             </tr>
             </thead>
             <tbody>
-            {ingredient.map(ingredient => (
+            {ingredients.map(ingredient => (
               <tr key={ingredient.id}>
                 <th scope="row">{ingredient.id}</th>
                 <td>{ingredient.name}</td>

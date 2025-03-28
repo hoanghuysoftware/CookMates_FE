@@ -1,88 +1,31 @@
-import { useEffect, useState } from 'react';
-import Button from '../components/Button';
-import '../assets/styles/categoryadmin.css';
-import categoryService from '../service/CategoryService';
+import { useEffect, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import Button from "../components/Button";
+import "../assets/styles/categoryadmin.css";
+import { fetchCategories, createCategory, updateCategory, deleteCategory } from "../features/category/categorySlice";
 
 const CategoryAdmin = () => {
-  const [categories, setCategories] = useState([]);
+  const dispatch = useDispatch();
+  const { data: categories, status } = useSelector((state) => state.categories);
+
   const [editCategory, setEditCategory] = useState(null);
-  const [categoryName, setCategoryName] = useState('');
+  const [categoryName, setCategoryName] = useState("");
 
   useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const response = await categoryService.getAllCategories();
-        // console.log(data);
-        setCategories(response.data);
-      } catch (error) {
-        console.error('Failed to fetch categories:', error);
-      }
-    };
-    fetchData();
-  }, []);
-
-
-  // const handleSaveButton = async (event) => {
-  //   event.preventDefault();
-  //   if (editCategory) {
-  //     try {
-  //       editCategory.name = categoryName
-  //       const response = await categoryService.updateCategory(editCategory.id, editCategory);
-  //       if (response.status) {
-  //         setCategories(categories.map(cat =>
-  //           cat.id === editCategory.id ? { ...cat, name: categoryName, updatedAt: new Date().toLocaleDateString() } : cat,
-  //         ));
-  //       }else{
-  //         alert("Error when update category !")
-  //       }
-  //     } catch (error) {
-  //       console.log('Error occur when update category !');
-  //     }
-  //     setEditCategory(null);
-  //   } else {
-  //     const newCategory = {
-  //       id: categories.length + 1,
-  //       name: categoryName,
-  //       createdAt: new Date().toLocaleDateString(),
-  //       updatedAt: new Date().toLocaleDateString(),
-  //     };
-  //     try {
-  //       const response = await categoryService.createCategory(newCategory);
-  //       if (response.status) {
-  //         setCategories([...categories, newCategory]);
-  //       }else{
-  //         alert("Error when add new category !")
-  //       }
-  //     } catch (error) {
-  //       console.log('Error occur when add new category !');
-  //     }
-  //   }
-  //   setCategoryName('');
-  // };
-
-  const handleSaveButton = async (event) => {
-    event.preventDefault();
-    try {
-      let response;
-      if (editCategory) {
-        response = await categoryService.updateCategory(editCategory.id, { name: categoryName });
-      } else {
-        response = await categoryService.createCategory({ name: categoryName });
-      }
-
-      if (response.status) { // Nếu API trả về thành công
-        setCategories(prev => editCategory
-          ? prev.map(cat => cat.id === editCategory.id ? response.data : cat)
-          : [...prev, response.data]);
-        setCategoryName('');
-        setEditCategory(null);
-      } else {
-        alert(response.message || "Có lỗi xảy ra!");
-      }
-    } catch (error) {
-      console.error("Error saving category:", error);
-      alert("Có lỗi xảy ra! Vui lòng thử lại.");
+    if (status === "idle") {
+      dispatch(fetchCategories()); // Chỉ gọi API nếu chưa có dữ liệu
     }
+  }, [status, dispatch]);
+
+  const handleSaveButton = (event) => {
+    event.preventDefault();
+    if (editCategory) {
+      dispatch(updateCategory({ id: editCategory.id, name: categoryName }));
+    } else {
+      dispatch(createCategory({ name: categoryName }));
+    }
+    setCategoryName("");
+    setEditCategory(null);
   };
 
   const handleUpdateClick = (category) => {
@@ -90,22 +33,11 @@ const CategoryAdmin = () => {
     setCategoryName(category.name);
   };
 
-  const handleDeleteClick = async (id) => {
-    if (!window.confirm('Bạn có chắc chắn muốn xóa danh mục này không?')) return;
-
-    try {
-      const response = await categoryService.deleteCategory(id);
-      if (response.status) {
-        setCategories(prev => prev.filter(cat => cat.id !== id));
-      } else {
-        alert(response.message || "Xóa danh mục thất bại!");
-      }
-    } catch (error) {
-      console.error("Error deleting category:", error);
-      alert("Có lỗi xảy ra! Vui lòng thử lại.");
+  const handleDeleteClick = (id) => {
+    if (window.confirm("Bạn có chắc chắn muốn xóa danh mục này không?")) {
+      dispatch(deleteCategory(id));
     }
   };
-
 
   return (
     <div className="category-admin__container">
@@ -117,30 +49,26 @@ const CategoryAdmin = () => {
             <tr>
               <th scope="col">ID</th>
               <th className="w-25" scope="col">Tên danh mục</th>
-              {/*<th scope="col">Ngày khởi tạo</th>*/}
-              {/*<th scope="col">Ngày update</th>*/}
               <th scope="col">Hành động</th>
             </tr>
             </thead>
             <tbody>
-            {categories.map(category => (
+            {categories.map((category) => (
               <tr key={category.id}>
                 <th scope="row">{category.id}</th>
                 <td>{category.name}</td>
-                {/*<td>{category.createdAt}</td>*/}
-                {/*<td>{category.updatedAt}</td>*/}
                 <td>
                   <Button
                     size="w-20"
-                    text={'Cập nhật'}
-                    type={'button'}
+                    text={"Cập nhật"}
+                    type={"button"}
                     className="btn-info me-2"
                     onClick={() => handleUpdateClick(category)}
                   />
                   <Button
                     size="w-20"
-                    text={'Xóa'}
-                    type={'button'}
+                    text={"Xóa"}
+                    type={"button"}
                     onClick={() => handleDeleteClick(category.id)}
                   />
                 </td>
@@ -150,7 +78,7 @@ const CategoryAdmin = () => {
           </table>
         </div>
         <div className="category-admin__form col-5">
-          <h2 className="category-title">{editCategory ? 'Cập nhật danh mục' : 'Thêm mới danh mục'}</h2>
+          <h2 className="category-title">{editCategory ? "Cập nhật danh mục" : "Thêm mới danh mục"}</h2>
           <form onSubmit={handleSaveButton}>
             <div className="form-floating mb-3 w-75 mx-auto">
               <input
@@ -165,10 +93,9 @@ const CategoryAdmin = () => {
             </div>
             <Button
               size="w-75"
-              text={editCategory ? 'Cập nhật' : 'Lưu'}
-              type={'submit'}
+              text={editCategory ? "Cập nhật" : "Lưu"}
+              type={"submit"}
               className="btn-warning"
-              // onClick={handleSaveButton}
             />
           </form>
         </div>
