@@ -10,3 +10,8 @@
     text-transform: uppercase;
     margin-bottom: 10px;
 }
+
+.ingredient-admin__table{
+    height: 500px;
+    overflow-y: auto;
+}
