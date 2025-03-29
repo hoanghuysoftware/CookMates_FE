@@ -6,6 +6,7 @@ export const fetchCategories = createAsyncThunk(
   "categories/fetchCategories",
   async (_, { getState }) => {
     const { categories } = getState();
+
     if (categories.data.length > 0) {
       return categories.data; // Không gọi API nếu đã có dữ liệu
     }
