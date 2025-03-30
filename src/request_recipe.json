@@ -1,0 +1,22 @@
+{
+  "title": "Cách làm ruốc khô rim nước mắm ăn kèm xôi cực ngon",
+  "description": "Ruốc khô rim nước mắm là một món ăn quen thuộc với nhiều người bởi cách làm đơn giản và nguyên liệu dân dã. Ruốc khô rim đậm đà, mặn mặn ngọt ngọt hứa hẹn khi ăn cùng với xôi sẽ khiến bạn thích mê cho mà xem. Bắt tay làm ngay cùng Thu Hà bạn nhé!",
+  "categories": [1, 5],
+  "cookTime": "40",
+  "preTime": "5",
+  "servings": "5",
+  "ingredients": [
+    {"ingredientId": 1, "nameIngredient": "Thịt heo", "quantity": "200", "unit": "g"},
+    {"ingredientId": 30, "nameIngredient": "tỏi", "quantity": "2", "unit": "g"},
+    {"ingredientId": 65, "nameIngredient": "ớt tươi", "quantity": "2", "unit": "g"},
+    {"ingredientId": 53, "nameIngredient": "đường", "quantity": "2", "unit": "tsp"},
+    {"ingredientId": 56, "nameIngredient": "Nước mắm", "quantity": "2", "unit": "tsp"}
+  ],
+  "steps": [
+    {"stepNumber": 1, "description": "Sơ chế nguyên liệu\nRuốc khô mua về bạn rửa sạch vớ…ng, hành lá thì bạn rửa sạch, cắt gốc, thái nhỏ.", "file": null},
+    {"stepNumber": 2, "description": "Làm nước sốt\nBạn cho 2 muỗng canh đường, 2 muỗng c…t vào chén rồi khuấy đều cho tan để làm nước sốt.", "file": null},
+    {"stepNumber": 3, "description": "Bước 3: Rim ruốc khô với nước mắm\nBạn bắc chảo lên… rim nước mắm ra đĩa và thưởng thức cùng xôi nhé!", "file": null},
+    {"stepNumber": 4, "description": "Vậy là bạn đã hoàn thành xong món ruốc khô rim nước… Hãy khoe ngay thành phẩm của bạn với Thu Hà nhé!", "file": null}
+  ],
+  "thumbnail": null
+}

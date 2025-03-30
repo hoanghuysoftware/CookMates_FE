@@ -1,7 +1,10 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import Button from '../components/Button';
+import { useDispatch, useSelector } from 'react-redux';
+import { fetchRecipe, updateStatus } from '../features/recipeSlice';
 
 const PendingRecipesAdmin = () => {
+  const dispatch = useDispatch();
   const [recipes, setRecipes] = useState([
     {
       id: 1,
@@ -22,14 +25,21 @@ const PendingRecipesAdmin = () => {
       status: 'pending',
     },
   ]);
+  const {data: dataRecipes, status} = useSelector(state =>  state.recipes)
+  useEffect(() => {
+    if(status === 'idle'){
+      dispatch(fetchRecipe())
+    }
+  }, [status, dispatch]);
+  console.log(dataRecipes)
 
   // Xử lý khi admin duyệt công thức
   const handleApprove = (id) => {
-    setRecipes(
-      recipes.map((recipe) =>
-        recipe.id === id ? { ...recipe, status: 'approved' } : recipe
-      )
-    );
+    const dataStatus = {
+      id: id,
+      flag: "APPROVED"
+    }
+    dispatch(updateStatus(dataStatus))
   };
 
   // Xử lý khi admin từ chối công thức
@@ -43,7 +53,7 @@ const PendingRecipesAdmin = () => {
 
   return (
     <div className="container mt-4 ">
-      <h2 className="mb-3">Danh sách công thức chờ duyệt</h2>
+      {/*<h2 className="mb-3">Danh sách công thức chờ duyệt</h2>*/}
       <table className="table table-striped table-hover bg-light">
         <thead className="table-info">
           <tr>
@@ -58,32 +68,29 @@ const PendingRecipesAdmin = () => {
           </tr>
         </thead>
         <tbody>
-          {recipes.map((recipe) => (
+          {dataRecipes.map((recipe) => (
             <tr key={recipe.id}>
               <th scope="row">{recipe.id}</th>
               <td style={{ maxWidth: '100px' }}>
-                {/* <img src={recipe.thumbnail} alt="Thumbnail" className="img-thumbnail" /> */}
-                <img
-                  className="w-100"
-                  src={`${process.env.PUBLIC_URL}/item.jpg`}
-                  alt="logo"
-                />
-              </td>
-              <td className="text-truncate" style={{ maxWidth: '100px' }}>
-                {recipe.name}
+                 <img src={recipe.thumbnail} alt="Thumbnail" className="img-thumbnail " />
               </td>
               <td className="text-truncate" style={{ maxWidth: '200px' }}>
-                {recipe.ingredients}
+                {recipe.title}
+              </td>
+              <td className="text-truncate" style={{ maxWidth: '200px' }}>
+                {recipe.ingredients.map(item => {
+                  return item.name+", "
+                })}
               </td>
               <td className="text-truncate" style={{ maxWidth: '250px' }}>
                 {recipe.description}
               </td>
-              <td>{recipe.author}</td>
+              <td>{recipe.user.fullName}</td>
               <td>
-                {recipe.status === 'pending' && (
+                {recipe.status === 'PENDING' && (
                   <span className="badge bg-warning">Chờ duyệt</span>
                 )}
-                {recipe.status === 'approved' && (
+                {recipe.status === 'APPROVED' && (
                   <span className="badge bg-success">Đã duyệt</span>
                 )}
                 {recipe.status === 'rejected' && (
@@ -91,7 +98,7 @@ const PendingRecipesAdmin = () => {
                 )}
               </td>
               <td>
-                {recipe.status === 'pending' && (
+                {recipe.status === 'PENDING' && (
                   <>
                     <Button
                       text="Duyệt"
