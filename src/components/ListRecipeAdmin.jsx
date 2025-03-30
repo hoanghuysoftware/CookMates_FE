@@ -1,18 +1,19 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import Button from '../components/Button';
+import { useDispatch, useSelector } from 'react-redux';
+import { fetchRecipe } from '../features/recipeSlice';
 
 const ListRecipeAdmin = () => {
+    const dispatch = useDispatch();
     const [showModal, setShowModal] = useState(false);
     const [selectedRecipe, setSelectedRecipe] = useState(null);
+    const {data: dataRecipe, status} = useSelector(state => state.recipes)
 
-    const recipe = {
-        id: 1,
-        thumbnail: "anhr",
-        name: "Phở bò",
-        ingredients: "Bánh phở, thịt bò, hành, gia vị",
-        description: "Món phở truyền thống của Việt Nam",
-        author: "Nguyễn Văn A",
-    };
+    useEffect(() => {
+        if(status === 'idle'){
+            dispatch(fetchRecipe())
+        }
+    }, [status, dispatch]);
 
     const handleView = (recipe) => {
         setSelectedRecipe(recipe);
@@ -39,18 +40,20 @@ const ListRecipeAdmin = () => {
                     </tr>
                 </thead>
                 <tbody>
-                    <tr>
-                        <th scope="row">{recipe.id}</th>
-                        <td style={{ maxWidth: "100px" }}>
-                            {/* <img src={recipe.thumbnail} alt="Thumbnail" className="img-thumbnail" /> */}
-                            <img className='w-100' src={`${process.env.PUBLIC_URL}/item.jpg`} alt="logo" />
-                        </td>
-                        <td className="text-truncate" style={{ maxWidth: "100px" }}>{recipe.name}</td>
-                        <td className="text-truncate" style={{ maxWidth: "200px" }}>{recipe.ingredients}</td>
-                        <td className="text-truncate" style={{ maxWidth: "250px" }}>{recipe.description}</td>
-                        <td>{recipe.author}</td>
-                        <td>
-                            <Button
+                    {dataRecipe.map(recipe => (
+                      <tr key={recipe.id}>
+                          <th scope="row">{recipe.id}</th>
+                          <td style={{ maxWidth: "100px" }}>
+                              <img src={recipe.thumbnail} alt="Thumbnail" className="img-thumbnail" />
+                          </td>
+                          <td className="text-truncate" style={{ maxWidth: "100px" }}>{recipe.title}</td>
+                          <td className="" style={{ maxWidth: "200px" }}>{recipe.ingredients.map(item => {
+                              return item.name+", "
+                          })}</td>
+                          <td className="text-truncate" style={{ maxWidth: "250px" }}>{recipe.description}</td>
+                          <td>{recipe.user.fullName}</td>
+                          <td>
+                              <Button
                                 size='w-20'
                                 text={"Xem"}
                                 type={'button'}
@@ -58,15 +61,17 @@ const ListRecipeAdmin = () => {
                                 onClick={() => handleView(recipe)}
                                 dataToggle="modal"
                                 dataTarget="#recipeModal"
-                            />
-                            <Button
+                              />
+                              <Button
                                 size='w-20'
                                 text={"Xóa"}
                                 type={'button'}
                                 className='btn btn-warning ms-1'
-                            />
-                        </td>
-                    </tr>
+                              />
+                          </td>
+                      </tr>
+                      )
+                    )}
                 </tbody>
             </table>
 
@@ -82,10 +87,12 @@ const ListRecipeAdmin = () => {
                             {selectedRecipe && (
                                 <div>
                                     <p><strong>ID:</strong> {selectedRecipe.id}</p>
-                                    <p><strong>Tên:</strong> {selectedRecipe.name}</p>
-                                    <p><strong>Nguyên liệu:</strong> {selectedRecipe.ingredients}</p>
+                                    <p><strong>Tên:</strong> {selectedRecipe.title}</p>
+                                    <p><strong>Nguyên liệu:</strong> {selectedRecipe.ingredients.map(item => {
+                                        return item.name+", "
+                                    })}</p>
                                     <p><strong>Mô tả:</strong> {selectedRecipe.description}</p>
-                                    <p><strong>Người đăng:</strong> {selectedRecipe.author}</p>
+                                    <p><strong>Người đăng:</strong> {selectedRecipe.user.fullName}</p>
                                 </div>
                             )}
                         </div>

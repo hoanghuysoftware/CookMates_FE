@@ -24,6 +24,14 @@ export const createRecipe = createAsyncThunk(
   }
 )
 
+export const updateStatus = createAsyncThunk(
+  "recipes/updateStatus",
+  async ({id, flag}) => {
+    const response = await recipeService.updateStatusRecipe(id, flag);
+    return response.data
+  }
+)
+
 const recipeSlice = createSlice({
   name: "recipes",
   initialState: {data: [], status: 'idle', error: null},
@@ -48,6 +56,15 @@ const recipeSlice = createSlice({
         state.status = "succeeded"
         // them data moi vao trong data[]
         state.data.push(action.payload)
+      })
+
+    // Update status recipe
+      .addCase(updateStatus.fulfilled, (state, action) => {
+        state.status = "succeeded"
+        const index = state.data.findIndex(recipe => recipe.id === action.payload.id);
+        if(index !== -1){
+          state.data[index] = action.payload
+        }
       })
 
   }

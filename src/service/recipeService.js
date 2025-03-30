@@ -27,6 +27,16 @@ const RecipeService = {
       throw error;
     }
   },
+
+  updateStatusRecipe: async (id, status) => {
+    try {
+      const response = await axios.patch(`${API_BASE_URL}/${id}?status=${status}`, );
+      return response.data;
+    } catch (error) {
+      console.error("Error fetching recipe:", error);
+      throw error;
+    }
+  }
 }
 
 

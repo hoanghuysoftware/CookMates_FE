@@ -28,7 +28,7 @@ const AddRecipe = () => {
     servings: '',
     categories: [],
     ingredients: [],
-    steps: [{ stepNumber: 1, description: '', file: null }],
+    steps: [{ stepNumber: 1, title: '', description: '', file: null }],
     thumbnail: null,
   });
 
@@ -54,7 +54,7 @@ const AddRecipe = () => {
       dispatch(fetchRecipe());
     }
   }, [statusCategory, statusIngredient, statusRecipe, dispatch]);
-  console.log(dataRecipe);
+  // console.log(dataRecipe);
 
   const handleCategoryChange = (selectedOptions) => {
     setCategories(selectedOptions.map(option => option.value));
@@ -122,7 +122,7 @@ const AddRecipe = () => {
   const addStep = () => {
     setRecipe({
       ...recipe,
-      steps: [...recipe.steps, { stepNumber: recipe.steps.length + 1, description: '', file: null }],
+      steps: [...recipe.steps, { stepNumber: recipe.steps.length + 1, title: '', description: '', file: null }],
     });
   };
 
@@ -141,7 +141,7 @@ const AddRecipe = () => {
       userId: 1,
       description: recipe.description,
       cookTime: recipe.cookTime,
-      preTime: recipe.preTime,
+      prepTime: recipe.prepTime,
       servings: recipe.servings,
       categories: recipe.categories,
       ingredients: recipe.ingredients,
@@ -252,6 +252,14 @@ const AddRecipe = () => {
           {recipe.steps.map((step, index) => (
             <div key={step.stepNumber} className="mb-3 p-3 border rounded">
               <label className="form-label">Bước {index + 1}</label>
+              <input
+                type="text"
+                className="form-control mb-2"
+                placeholder="Nhập tiêu đề bước..."
+                value={step.title || ''}
+                onChange={(e) => handleStepChange(index, 'title', e.target.value)}
+                required
+              />
               <textarea
                 className="form-control mb-2"
                 placeholder="Nhập nội dung bước..."
@@ -268,6 +276,7 @@ const AddRecipe = () => {
               )}
             </div>
           ))}
+
 
           <button type="button" className="btn btn-primary mb-3" onClick={addStep}>
             + Thêm Bước
