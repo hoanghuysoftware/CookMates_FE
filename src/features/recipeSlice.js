@@ -53,7 +53,7 @@ const recipeSlice = createSlice({
 
       // Create recipe
       .addCase(createRecipe.fulfilled, (state, action) => {
-        state.status = "succeeded"
+        state.status = "created"
         // them data moi vao trong data[]
         state.data.push(action.payload)
       })

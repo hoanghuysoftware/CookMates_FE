@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import Select from 'react-select';
 import { useDispatch, useSelector } from 'react-redux';
-import { createIngredient, fetchIngredient } from '../features/ingredient/ingredientSlice';
+import {  fetchIngredient } from '../features/ingredient/ingredientSlice';
 import { fetchCategories } from '../features/category/categorySlice';
 import { createRecipe, fetchRecipe } from '../features/recipeSlice';
 //don vi cua nguyen lieu
@@ -35,6 +35,7 @@ const AddRecipe = () => {
   const [selectedIngredient, setSelectedIngredient] = useState(null);
   const [ingredientAmount, setIngredientAmount] = useState('');
   const [selectedUnit, setSelectedUnit] = useState(null);
+  const [successMessage, setSuccessMessage] = useState(false);
   const { data: dataIngredients, status: statusIngredient } = useSelector(state => state.ingredients);
   const availableIngredients = dataIngredients.map(item => {
     return { value: item.id, label: item.name };
@@ -53,9 +54,11 @@ const AddRecipe = () => {
       dispatch(fetchIngredient());
       dispatch(fetchRecipe());
     }
+    if (statusRecipe === "created") {
+      setSuccessMessage("Thêm công thức thành công!");
+      setTimeout(() => setSuccessMessage(""), 3000); // Ẩn sau 3 giây
+    }
   }, [statusCategory, statusIngredient, statusRecipe, dispatch]);
-  // console.log(dataRecipe);
-
   const handleCategoryChange = (selectedOptions) => {
     setCategories(selectedOptions.map(option => option.value));
     setRecipe({ ...recipe, categories: selectedOptions.map(option => option.value) });
@@ -145,8 +148,9 @@ const AddRecipe = () => {
       servings: recipe.servings,
       categories: recipe.categories,
       ingredients: recipe.ingredients,
-      steps: recipe.steps.map(({ stepNumber, description }) => ({ stepNumber, description })),
+      steps: recipe.steps.map(({ stepNumber, title, description }) => ({ stepNumber, title, description })),
     })], { type: 'application/json' });
+
 
     formData.append('recipe', recipeBlob);
     // Thêm file ảnh nếu có
@@ -159,11 +163,11 @@ const AddRecipe = () => {
     // Gửi request
     dispatch(createRecipe(formData));
   };
-
   return (
     <div className="container mt-4">
       <div className="recipe-form__container p-3 bg-white border rounded shadow">
         <h2 className="mb-4">Thêm Công Thức Mới</h2>
+        {successMessage && <div className="alert alert-success">{successMessage}</div>}
         <form onSubmit={handleSubmit} className="w-75 mx-auto text-start">
           <div className="mb-3">
             <label className="form-label">Tên công thức</label>

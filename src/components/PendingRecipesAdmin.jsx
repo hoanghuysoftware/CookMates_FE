@@ -31,7 +31,6 @@ const PendingRecipesAdmin = () => {
       dispatch(fetchRecipe())
     }
   }, [status, dispatch]);
-  console.log(dataRecipes)
 
   // Xử lý khi admin duyệt công thức
   const handleApprove = (id) => {
@@ -44,11 +43,11 @@ const PendingRecipesAdmin = () => {
 
   // Xử lý khi admin từ chối công thức
   const handleReject = (id) => {
-    setRecipes(
-      recipes.map((recipe) =>
-        recipe.id === id ? { ...recipe, status: 'rejected' } : recipe
-      )
-    );
+    const dataStatus = {
+      id: id,
+      flag: "REJECTED"
+    }
+    dispatch(updateStatus(dataStatus))
   };
 
   return (
@@ -90,10 +89,11 @@ const PendingRecipesAdmin = () => {
                 {recipe.status === 'PENDING' && (
                   <span className="badge bg-warning">Chờ duyệt</span>
                 )}
+
                 {recipe.status === 'APPROVED' && (
                   <span className="badge bg-success">Đã duyệt</span>
                 )}
-                {recipe.status === 'rejected' && (
+                {recipe.status === 'REJECTED' && (
                   <span className="badge bg-danger">Bị từ chối</span>
                 )}
               </td>
