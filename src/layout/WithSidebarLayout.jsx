@@ -1,8 +1,10 @@
 import MainLayout from "./MainLayout"
 import RecipeTopList from "../components/RecipeTopList";
-
+import { useDispatch, useSelector } from 'react-redux';
 
 const WithSidebarLayout = ({ children }) => {
+    const dispatch = useDispatch()
+    const {data: dataRecipe, status} = useSelector(state => state.recipes)
     return (
         <div>
             <div className="">
@@ -14,7 +16,7 @@ const WithSidebarLayout = ({ children }) => {
                                 <h2 className="contetnt-title">Công thức HOT</h2>
                             </div>
                             <div className="list-recipe-top">
-                                <RecipeTopList />
+                                <RecipeTopList recipes={dataRecipe}/>
                             </div>
                         </div>
                     </div>

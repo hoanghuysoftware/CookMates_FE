@@ -15,6 +15,19 @@ export const fetchRecipe = createAsyncThunk(
   }
 )
 
+export const fetchRecipeById = createAsyncThunk(
+  "/recipes/fetchRecipeById",
+  async (id, {getState}) => {
+    const {recipes} = getState()
+    const recipeIndex = recipes.data.findIndex(item => item.id === id);
+    if(recipeIndex !== -1){
+      return recipes.data[recipeIndex]
+    }
+    const response = await recipeService.getRecipeById(id)
+    return response.data;
+  }
+)
+
 // Create new recipe
 export const createRecipe = createAsyncThunk(
   "recipes/createRecipe",
@@ -50,7 +63,13 @@ const recipeSlice = createSlice({
         state.error = action.error.message;
 
       })
-
+      .addCase((fetchRecipeById.fulfilled), (state, action )=> {
+        state.status = "succeeded"
+        const exists = state.data.some(recipe => recipe.id === action.payload.id);
+        if (!exists) {
+          state.data.push(action.payload); // Nếu chưa có thì thêm vào state
+        }
+      })
       // Create recipe
       .addCase(createRecipe.fulfilled, (state, action) => {
         state.status = "created"

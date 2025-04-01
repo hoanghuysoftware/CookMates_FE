@@ -1,15 +1,16 @@
-import RecipeCardTop  from "./RecipeCardTop";
+import RecipeCardTop from './RecipeCardTop';
 
-const RecipeTopList = () => {
-    return(
-        <div>
-            <RecipeCardTop rank={1}/>
-            <RecipeCardTop rank={2}/>
-            <RecipeCardTop rank={3}/>
-            <RecipeCardTop rank={4}/>
-            <RecipeCardTop rank={5}/>
-        </div>
-    )
-}
+const RecipeTopList = ({ recipes = [] }) => {
+  return (
+    <div>
+      {recipes.map((recipe, index) => {
+          if (index <= 5) {
+            return <RecipeCardTop key={index} recipe={recipe} rank={index+1} />;
+          }
+        },
+      )}
+    </div>
+  );
+};
 
 export default RecipeTopList;
