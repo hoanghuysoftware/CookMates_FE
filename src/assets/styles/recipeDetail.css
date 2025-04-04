@@ -65,3 +65,15 @@
 .recipe-content__sub-title{
     margin-top: 12px;
 }
+
+.recipe_like {
+    color: #f22726;
+    cursor: pointer;
+    margin-bottom: 16px;
+}
+.recipe_like:hover span{
+    color:#f22726;
+}
+.recipe_like span{
+    color: #203eff;
+}

@@ -12,12 +12,20 @@ const RecipeDetails = () => {
   const { id } = useParams();
   const recipe = useSelector(state => state.recipes.data.find(r => r.id === parseInt(id)));
   const status = useSelector(state => state.recipes.status);
+  const [like, setLike] = useState(false);
   useEffect(() => {
     if (!recipe) {
-      dispatch(fetchRecipeById(parseInt(id))); // Chỉ gọi API nếu chưa có trong store
+      dispatch(fetchRecipeById(parseInt(id)));
+    } else if (recipe.favorites) {
+      // can thay id user luu o localStore
+      setLike(recipe.favorites.some(fav => fav.userId === recipe.user.id));
     }
-  }, [id, status, dispatch]);
-  console.log(recipe)
+  }, [id, status, recipe, dispatch]);
+
+
+  const handleClickLike = () => {
+    setLike(!like);
+  };
   if (!recipe) return null;
   return (
     <div className="bg-white main-content mt-5">
@@ -38,7 +46,19 @@ const RecipeDetails = () => {
             <div className="recipe-title__info d-flex justify-content-center align-items-center">
               <p className="recipe-info__item">đăng bởi {recipe.user.fullName}</p>
               <p className="recipe-info__item">{recipe.createdAt.split('T')[0]} </p>
-              <p className="recipe-info__item">1K lượt xem</p>
+              {/*<p className="recipe-info__item">1K lượt xem</p>*/}
+              <div className="recipe-info__item recipe_like">
+                {like ?
+                  <div onClick={handleClickLike}>
+                    <span>Yêu thich</span>
+                    <i className="ms-2 fa-solid fa-heart"></i>
+                  </div> :
+                  <div onClick={handleClickLike}>
+                    <span>Thêm vào danh sách yêu thich</span>
+                    <i className="ms-2 fa-regular fa-heart"></i>
+                  </div>
+                }
+              </div>
             </div>
           </div>
           <div className="recipe-content">
@@ -55,7 +75,8 @@ const RecipeDetails = () => {
               <h4 className="recipe-content__title">2. Cách làm </h4>
               {recipe.steps.slice(0, -1).map((step, index) => (
                 <div key={index}>
-                  <h6 className="recipe-content__sub-title">2.{step.stepNumber}. Bước {step.stepNumber}: {step.title}</h6>
+                  <h6 className="recipe-content__sub-title">2.{step.stepNumber}.
+                    Bước {step.stepNumber}: {step.title}</h6>
                   <p className="recipe-instruct__content">
                     {step.description}
                   </p>
@@ -67,7 +88,8 @@ const RecipeDetails = () => {
               {recipe.steps.length > 0 && (
                 <div>
                   <h4 className="recipe-content__title">3. Thành phẩm</h4>
-                  <img src={`${recipe.steps[recipe.steps.length - 1].imageUrl}`} alt="" className="recipe-content__img" />
+                  <img src={`${recipe.steps[recipe.steps.length - 1].imageUrl}`} alt=""
+                       className="recipe-content__img" />
                   <p className="recipe-result__content">
                     {recipe.steps[recipe.steps.length - 1].description}
                   </p>
@@ -76,7 +98,7 @@ const RecipeDetails = () => {
             </div>
           </div>
           <div className="recipe-review">
-            <Review recipeId={recipe.id}/>
+            <Review recipeId={recipe.id} />
           </div>
         </div>
       </WithSidebarLayout>
