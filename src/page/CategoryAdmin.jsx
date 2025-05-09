@@ -1,30 +1,46 @@
-import { useEffect, useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
-import Button from "../components/Button";
-import "../assets/styles/categoryadmin.css";
-import { fetchCategories, createCategory, updateCategory, deleteCategory } from "../features/category/categorySlice";
+import { useEffect, useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import Button from '../components/Button';
+import '../assets/styles/categoryadmin.css';
+import { fetchCategories, createCategory, updateCategory, deleteCategory } from '../features/category/categorySlice';
 
 const CategoryAdmin = () => {
   const dispatch = useDispatch();
   const { data: categories, status } = useSelector((state) => state.categories);
 
   const [editCategory, setEditCategory] = useState(null);
-  const [categoryName, setCategoryName] = useState("");
+  const [categoryName, setCategoryName] = useState('');
+  const [image, setImage] = useState(null);
+
 
   useEffect(() => {
-    if (status === "idle") {
+    if (status === 'idle') {
       dispatch(fetchCategories()); // Chỉ gọi API nếu chưa có dữ liệu
     }
   }, [status, dispatch]);
 
   const handleSaveButton = (event) => {
     event.preventDefault();
-    if (editCategory) {
-      dispatch(updateCategory({ id: editCategory.id, name: categoryName }));
-    } else {
-      dispatch(createCategory({ name: categoryName }));
+
+    const formData = new FormData();
+    const category = { name: categoryName };
+    formData.append('category',
+      new Blob([JSON.stringify(category)], {
+        type: 'application/json',
+      }));
+    if (image) {
+      formData.append('image', image);
     }
+
+
+    if (editCategory) {
+      dispatch(updateCategory({ id: editCategory.id, formData  }));
+    } else {
+      dispatch(createCategory(formData));
+    }
+
     setCategoryName("");
+    setImage(null);
     setEditCategory(null);
   };
 
@@ -34,7 +50,7 @@ const CategoryAdmin = () => {
   };
 
   const handleDeleteClick = (id) => {
-    if (window.confirm("Bạn có chắc chắn muốn xóa danh mục này không?")) {
+    if (window.confirm('Bạn có chắc chắn muốn xóa danh mục này không?')) {
       dispatch(deleteCategory(id));
     }
   };
@@ -60,15 +76,15 @@ const CategoryAdmin = () => {
                 <td>
                   <Button
                     size="w-20"
-                    text={"Cập nhật"}
-                    type={"button"}
+                    text={'Cập nhật'}
+                    type={'button'}
                     className="btn-info me-2"
                     onClick={() => handleUpdateClick(category)}
                   />
                   <Button
                     size="w-20"
-                    text={"Xóa"}
-                    type={"button"}
+                    text={'Xóa'}
+                    type={'button'}
                     onClick={() => handleDeleteClick(category.id)}
                   />
                 </td>
@@ -78,7 +94,7 @@ const CategoryAdmin = () => {
           </table>
         </div>
         <div className="category-admin__form col-5">
-          <h2 className="category-title">{editCategory ? "Cập nhật danh mục" : "Thêm mới danh mục"}</h2>
+          <h2 className="category-title">{editCategory ? 'Cập nhật danh mục' : 'Thêm mới danh mục'}</h2>
           <form onSubmit={handleSaveButton}>
             <div className="form-floating mb-3 w-75 mx-auto">
               <input
@@ -91,10 +107,19 @@ const CategoryAdmin = () => {
               />
               <label htmlFor="floatingInput">Nhập tên danh mục</label>
             </div>
+            <label>Ảnh danh mục (tùy chọn)</label>
+            <div className="form mb-3 w-75 mx-auto">
+              <input
+                type="file"
+                className="form-control"
+                accept="image/*"
+                onChange={(e) => setImage(e.target.files[0])}
+              />
+            </div>
             <Button
               size="w-75"
-              text={editCategory ? "Cập nhật" : "Lưu"}
-              type={"submit"}
+              text={editCategory ? 'Cập nhật' : 'Lưu'}
+              type={'submit'}
               className="btn-warning"
             />
           </form>

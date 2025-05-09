@@ -15,6 +15,8 @@ import UserAdmin from "../page/UserAdmin";
 import UserAddRecipe from "../page/UserAddRecipe";
 import UserAllRecipe from "../page/UserAllRecipe";
 import UserAccount from "../page/UserAccount";
+import SearchPage from '../page/SearchPage';
+import RecipesByCategory from '../page/RecipesByCategory';
 
 const AppRouter = () => {
     return (
@@ -31,7 +33,9 @@ const AppRouter = () => {
                 <Route path="/" element={<MainLayout> <HomePage /> </MainLayout>} />
                 <Route path="/:categoryName" element={<MainLayout> <Category /> </MainLayout>} />
                 <Route path="/user/:id" element={<MainLayout> <Favorite /> </MainLayout>} />
+                <Route path="/search/:value" element={<MainLayout> <SearchPage /> </MainLayout>} />
                 <Route path="/recipe/:id" element={<MainLayout> <RecipeDetails /> </MainLayout>} />
+                <Route path="/categories/:categoryId/recipes" element={<MainLayout> <RecipesByCategory /> </MainLayout>} />
 
                 {/* User tự quản lý thông tin cá nhân */}
                 <Route path="/userID/account" element={<MainLayout> <UserAccount /> </MainLayout>} />

@@ -17,6 +17,7 @@ const RecipeCard = ({ recipe=null, layout = "horizontal", checkBox = false }) =>
         console.log(e.target) // truyền id recipe  để xóa
     }
 
+
     return (
         <div className={`recipe-card-container ${layout === "vertical" ? "col-6 text-center border border-0" : "row gx-2"}`}>
             <div className={`col ${layout === 'vertical' ? "col-12" : checkBox ? "col-5" : "col-6"}`}>

@@ -1,26 +1,18 @@
-import Banner from '../components/Banner';
-import '../assets/styles/home.css';
+import { useNavigate, useParams } from 'react-router-dom';
 import RecipeList from '../components/RecipeList';
 import WithSidebarLayout from '../layout/WithSidebarLayout';
-import '../assets/styles/mainlayout.css';
-import { useDispatch, useSelector } from 'react-redux';
-import { useEffect, useRef } from 'react';
-import { fetchRecipe } from '../features/recipeSlice';
-import { useNavigate } from 'react-router-dom';
+import { useSelector } from 'react-redux';
+import { useEffect, useRef, useState } from 'react';
 
-const HomePage = () => {
-  const dispatch = useDispatch();
-  const scrollRef = useRef(null);
-  const navigate = useNavigate();
+const RecipesByCategory = () => {
 
+  const { categoryId } = useParams();
   const { data: dataRecipe, status } = useSelector(state => state.recipes);
   const { data: dataCategory, status: statusCategory } = useSelector(state => state.categories);
-
-  useEffect(() => {
-    if (status === 'idle') {
-      dispatch(fetchRecipe());
-    }
-  }, [status, dispatch]);
+  const [result, setResult] = useState([]);
+  const [categoryName, setCategoryName] = useState('');
+  const scrollRef = useRef(null);
+  const navigate = useNavigate();
 
   const scroll = (direction) => {
     if (scrollRef.current) {
@@ -36,10 +28,24 @@ const HomePage = () => {
     navigate(`/categories/${id}/recipes`)
   }
 
+  const getRecipeByCategory = (categoryId) => {
+    const filtered = dataRecipe.filter(item =>
+      item.categories.some(cat => cat.id === categoryId)
+    );
+    const name = dataCategory.filter(item => item.id === categoryId)[0].name;
+    setResult(filtered);
+    setCategoryName(name);
+  };
+
+
+  useEffect(() => {
+    window.scrollTo(0, 0);
+    getRecipeByCategory(parseInt(categoryId));
+  }, [categoryId]);
+
+  console.log(result.length)
   return (
     <div className="bg-white main-content mt-lg-5">
-      <Banner />
-
       <div className="category_carousel container mt-4 position-relative">
         <button
           className="btn btn-light position-absolute top-50 start-0 translate-middle-y z-1"
@@ -86,14 +92,16 @@ const HomePage = () => {
           &#8594;
         </button>
       </div>
-
       <WithSidebarLayout>
         <div className="home-left-content">
           <div className="title-container">
-            <h2 className="contetnt-title">Công thức mới</h2>
+            <h2 className="contetnt-title">{categoryName}</h2>
           </div>
           <div className="list-recipe">
-            <RecipeList data={dataRecipe} />
+            {result.length <= 0 ? <p>Danh mục trống</p>
+              :
+              <RecipeList data={result} />
+            }
           </div>
         </div>
       </WithSidebarLayout>
@@ -101,4 +109,4 @@ const HomePage = () => {
   );
 };
 
-export default HomePage;
+export default RecipesByCategory;

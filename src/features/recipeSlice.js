@@ -3,90 +3,92 @@ import recipeService from '../service/recipeService';
 import { createCategory } from './category/categorySlice';
 
 export const fetchRecipe = createAsyncThunk(
-  "recipes/fetchRecipe",
-  async (_, {getState}) => {
-    const {recipes} = getState();
-    if(recipes.data.length > 0){
+  'recipes/fetchRecipe',
+  async (_, { getState }) => {
+    const { recipes } = getState();
+    if (recipes.data.length > 0) {
       return recipes.data;
     }
 
-    const response = await recipeService.getAllRecipe()
-    return response.data
-  }
-)
+    const response = await recipeService.getAllRecipe();
+    return response.data;
+  },
+);
 
 export const fetchRecipeById = createAsyncThunk(
-  "/recipes/fetchRecipeById",
-  async (id, {getState}) => {
-    const {recipes} = getState()
+  '/recipes/fetchRecipeById',
+  async (id, { getState }) => {
+    const { recipes } = getState();
     const recipeIndex = recipes.data.findIndex(item => item.id === id);
-    if(recipeIndex !== -1){
-      return recipes.data[recipeIndex]
+    if (recipeIndex !== -1) {
+      return recipes.data[recipeIndex];
     }
-    const response = await recipeService.getRecipeById(id)
+    const response = await recipeService.getRecipeById(id);
     return response.data;
-  }
-)
+  },
+);
+
 
 // Create new recipe
 export const createRecipe = createAsyncThunk(
-  "recipes/createRecipe",
+  'recipes/createRecipe',
   async (dataPost) => {
     const response = await recipeService.createRecipe(dataPost);
-    return response.data
-  }
-)
+    return response.data;
+  },
+);
 
 export const updateStatus = createAsyncThunk(
-  "recipes/updateStatus",
-  async ({id, flag}) => {
+  'recipes/updateStatus',
+  async ({ id, flag }) => {
     const response = await recipeService.updateStatusRecipe(id, flag);
-    return response.data
-  }
-)
+    return response.data;
+  },
+);
 
 const recipeSlice = createSlice({
-  name: "recipes",
-  initialState: {data: [], status: 'idle', error: null},
+  name: 'recipes',
+  initialState: { data: [], status: 'idle', error: null },
   extraReducers: builder => {
     builder
       // Load data recipe
       .addCase(fetchRecipe.pending, state => {
-        state.status = "loading"
+        state.status = 'loading';
       })
       .addCase(fetchRecipe.fulfilled, (state, action) => {
-        state.status = "succeeded"
-        state.data = action.payload
+        state.status = 'succeeded';
+        state.data = action.payload;
       })
       .addCase((fetchRecipe.rejected), (state, action) => {
-        state.status = "failed"
+        state.status = 'failed';
         state.error = action.error.message;
 
       })
-      .addCase((fetchRecipeById.fulfilled), (state, action )=> {
-        state.status = "succeeded"
+      .addCase((fetchRecipeById.fulfilled), (state, action) => {
+        state.status = 'succeeded';
         const exists = state.data.some(recipe => recipe.id === action.payload.id);
         if (!exists) {
           state.data.push(action.payload); // Nếu chưa có thì thêm vào state
         }
       })
+
       // Create recipe
       .addCase(createRecipe.fulfilled, (state, action) => {
-        state.status = "created"
+        state.status = 'created';
         // them data moi vao trong data[]
-        state.data.push(action.payload)
+        state.data.push(action.payload);
       })
 
-    // Update status recipe
+      // Update status recipe
       .addCase(updateStatus.fulfilled, (state, action) => {
-        state.status = "succeeded"
+        state.status = 'succeeded';
         const index = state.data.findIndex(recipe => recipe.id === action.payload.id);
-        if(index !== -1){
-          state.data[index] = action.payload
+        if (index !== -1) {
+          state.data[index] = action.payload;
         }
-      })
+      });
 
-  }
-})
+  },
+});
 
 export default recipeSlice.reducer;

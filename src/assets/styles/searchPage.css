@@ -1,0 +1,25 @@
+.search-box{
+    margin-top: 10px;
+    padding-bottom: 5px;
+}
+
+.search-key{
+    margin-left: 10px;
+    font-size: 19px;
+    color: red;
+    font-weight: 500;
+}
+
+.search-page{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.search-page p {
+    margin-bottom: 0;
+    font-size: 19px;
+    margin-left: 5px;
+    font-weight: 600;
+    color: red;
+}

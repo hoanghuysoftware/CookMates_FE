@@ -18,9 +18,9 @@ export const fetchCategories = createAsyncThunk(
 // Gọi API thêm category
 export const createCategory = createAsyncThunk(
   "categories/createCategory",
-  async (newCategory) => {
-    const response = await categoryService.createCategory(newCategory);
-    return response.data;
+  async (formData, thunkAPI) => {
+    const response = await  categoryService.createCategory(formData)
+    return response.data
   }
 );
 

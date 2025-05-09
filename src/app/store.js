@@ -4,6 +4,8 @@ import ingredientReducer from '../features/ingredient/ingredientSlice';
 import recipeReducer from '../features/recipeSlice';
 import userReducer from '../features/userSlice'
 import reviewReducer from '../features/reviewSlice'
+import favoriteReducer from '../features/favoriteSlice'
+import favoriteRecipesReducer from '../features/favoriteRecipesSlice'
 
 export const store = configureStore({
   reducer: {
@@ -12,5 +14,7 @@ export const store = configureStore({
     recipes: recipeReducer,
     users: userReducer,
     reviews: reviewReducer,
+    favorites: favoriteReducer,
+    favoriteRecipes: favoriteRecipesReducer
   },
 });

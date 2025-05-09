@@ -1,6 +1,5 @@
 import SearchBar from "./SearchBar";
 import "../assets/styles/header.css";
-import Navbar from "./Navbar";
 import { Link } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
 
@@ -8,7 +7,8 @@ const Header = () => {
   const navigate = useNavigate();
 
   const handleSearch = (query) => {
-    console.log("Searching for:", query);
+    navigate(`/search/${query}`)
+    // console.log("Searching for:", query);
   };
 
   const handleLogout = () => {
@@ -17,6 +17,8 @@ const Header = () => {
 
     navigate("/login");
   };
+
+  const nameUser = localStorage.getItem("fullName")
 
   return (
     <div>
@@ -36,7 +38,7 @@ const Header = () => {
             <div className="header-info header-content-item col col-3 row align-items-center">
               <div className="favorite-container col col-4">
                 <Link
-                  to={`/user/${1}`}
+                  to={`/user/${2}`}
                   style={{ color: "unset" }}
                   className="d-block text-decoration-none"
                 >
@@ -56,7 +58,7 @@ const Header = () => {
                 <div className="header-item__icon">
                   <i className="fa-solid fa-user-pen"></i>
                 </div>
-                <h6 className="header-item__title">Người dùng</h6>
+                <h6 className="header-item__title">{nameUser === null || nameUser === '' ? "Người dùng":nameUser}</h6>
                 <div className="title-user__pop shadow-lg">
                   <div className="user-pop__container  text-start">
                     <div className="user-pop__item">

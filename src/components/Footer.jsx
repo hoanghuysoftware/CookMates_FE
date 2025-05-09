@@ -8,7 +8,7 @@ const Footer = () => {
                 <h1 className="footer-name">CookMates</h1>
             </div> */}
             <div className="footer-contact">
-                <p>@2025 -Bản quyền thuộc về CookMates</p>
+                <p>@2025 - Bản quyền thuộc về CookMates</p>
                 <div className="d-flex justify-content-center">
                     <div className="contact-email me-5"><label className="pe-1 fw-bold">Email: </label>hoanghuy.software@gmail.com</div>
                     <div className="contact-address"><label className="pe-1 fw-bold">Địa chỉ: </label>Phú Hội - Nhơn Trạch - Đồng Nai</div>

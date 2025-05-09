@@ -14,3 +14,58 @@
     padding: 8px 12px;
     text-transform: uppercase;
 }
+
+.category_carousel {
+    position: relative;
+    padding: 10px 0;
+    margin-top: 20px;
+}
+
+.category_carousel button {
+    background-color: rgba(255, 255, 255, 0.7);
+    border-radius: 50%;
+    padding: 10px;
+    font-size: 20px;
+    transition: background-color 0.3s ease;
+}
+
+
+.category_carousel button:hover {
+    background-color: rgba(255, 255, 255, 0.9);
+}
+
+.category_carousel .d-flex {
+    gap: 20px; /* Tăng khoảng cách giữa các mục */
+    overflow-x: auto;
+    scrollbar-width: none; /* Ẩn thanh cuộn trên Firefox */
+}
+.category_carousel .d-flex::-webkit-scrollbar {
+    display: none; /* Ẩn thanh cuộn trên Chrome, Safari */
+}
+
+.category_carousel .text-center {
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.category_carousel .text-center:hover {
+    transform: scale(1.05);
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+}
+
+.category_carousel img {
+    border-radius: 50%;
+    border: 2px solid #fff;
+    transition: transform 0.3s ease;
+}
+
+.category_carousel img:hover {
+    transform: scale(1.1);
+    cursor: pointer;
+}
+
+.category_carousel .fw-medium {
+    font-size: 14px;
+    font-weight: 500;
+    color: #333;
+    margin-top: 10px;
+}

@@ -14,6 +14,7 @@ const RecipeDetails = () => {
   const status = useSelector(state => state.recipes.status);
   const [like, setLike] = useState(false);
   useEffect(() => {
+    window.scrollTo(0, 0);
     if (!recipe) {
       dispatch(fetchRecipeById(parseInt(id)));
     } else if (recipe.favorites) {
@@ -23,10 +24,19 @@ const RecipeDetails = () => {
   }, [id, status, recipe, dispatch]);
 
 
+  const currentUser = parseInt(localStorage.getItem("userID"))
+  const isFavorite  = recipe.favorites.some(fav => fav.userId === currentUser)
+
   const handleClickLike = () => {
-    setLike(!like);
+    console.log(!isFavorite)
+    console.log(currentUser)
+    // tại đây gọi hàm kiẻm tra nếu mà isfavite ==
+    // false thì gọi xóa
+    // true thì goị hàm post đẻ thêm vào
   };
+
   if (!recipe) return null;
+
   return (
     <div className="bg-white main-content mt-5">
       <nav className="ps-3" style={{ '--bs-breadcrumb-divider': '\'>\'' }} aria-label="breadcrumb">
@@ -48,7 +58,7 @@ const RecipeDetails = () => {
               <p className="recipe-info__item">{recipe.createdAt.split('T')[0]} </p>
               {/*<p className="recipe-info__item">1K lượt xem</p>*/}
               <div className="recipe-info__item recipe_like">
-                {like ?
+                {isFavorite ?
                   <div onClick={handleClickLike}>
                     <span>Yêu thich</span>
                     <i className="ms-2 fa-solid fa-heart"></i>
