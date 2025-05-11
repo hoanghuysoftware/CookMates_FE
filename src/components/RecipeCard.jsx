@@ -20,7 +20,7 @@ const RecipeCard = ({ recipe=null, layout = "horizontal", checkBox = false }) =>
 
     return (
         <div className={`recipe-card-container ${layout === "vertical" ? "col-6 text-center border border-0" : "row gx-2"}`}>
-            <div className={`col ${layout === 'vertical' ? "col-12" : checkBox ? "col-5" : "col-6"}`}>
+            <div onClick={handleClickBTN} className={`col ${layout === 'vertical' ? "col-12" : checkBox ? "col-5" : "col-6"}`}>
                 <div className="recipe-card__img" style={{ "--bg-img": `url(${recipe.thumbnail})` }}></div>
             </div>
             <div className={`col ${layout === 'vertical' ? "col-12" : checkBox ? "col-6" : "col-6"}`}>

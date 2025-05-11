@@ -13,6 +13,18 @@ const RecipeService = {
       throw error;
     }
   },
+  // Lấy danh sách tất cả recipe cho user
+  getAllRecipeForUser: async (page) => {
+    if(page === undefined)
+      page = 0;
+    try {
+      const response = await axios.get(`${API_BASE_URL}/active?page=${page}`);
+      return response.data;
+    } catch (error) {
+      console.error('Error fetching recipe:', error);
+      throw error;
+    }
+  },
 
   getRecipeById: async (id) => {
     try {

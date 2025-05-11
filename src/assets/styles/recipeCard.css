@@ -2,10 +2,19 @@
     margin-bottom: 40px;
     padding-bottom: 30px;
     border-bottom: 1px solid #ccc;
+    transition: transform 0.3s ease;
+    z-index: 1;
 }
 
 .recipe-card-container:last-child {
     border-bottom: none;
+}
+
+.recipe-card-container:hover{
+    transform: scale(1.1);
+    cursor: pointer;
+    opacity: 0.9;
+    border: none;
 }
 
 .recipe-card__img {
@@ -17,7 +26,9 @@
     background-position: center;
     background-size: contain;
     background-repeat: no-repeat;
+
 }
+
 
 .recipe-card-content {
     text-align: justify;
@@ -30,6 +41,7 @@
 .recipe-card__auth {
     margin-bottom: 20px;
     position: relative;
+    z-index: 1;
 }
 
 .recipe-card__auth::after {
@@ -81,7 +93,6 @@
     overflow: hidden;
     text-overflow: ellipsis;
 }
-.recipe-card__img:hover,
 .recipe-card__title:hover {
     opacity: 0.8;
     cursor: pointer;

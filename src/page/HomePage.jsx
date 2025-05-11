@@ -4,23 +4,38 @@ import RecipeList from '../components/RecipeList';
 import WithSidebarLayout from '../layout/WithSidebarLayout';
 import '../assets/styles/mainlayout.css';
 import { useDispatch, useSelector } from 'react-redux';
-import { useEffect, useRef } from 'react';
-import { fetchRecipe } from '../features/recipeSlice';
+import { useEffect, useRef, useState } from 'react';
+import { fetchRecipe, fetchRecipeForUser } from '../features/recipeSlice';
+import {fetchDataRecipeForUser} from '../features/recipeSliceUser';
 import { useNavigate } from 'react-router-dom';
+import Pagination from '../components/Pagination';
 
 const HomePage = () => {
   const dispatch = useDispatch();
   const scrollRef = useRef(null);
   const navigate = useNavigate();
+  const [currentPage, setCurrentPage] = useState(1);
 
   const { data: dataRecipe, status } = useSelector(state => state.recipes);
   const { data: dataCategory, status: statusCategory } = useSelector(state => state.categories);
+  const { data: dataRecipeTest} = useSelector(state => state.recipeTest); // phan trang tai BE
+
+ // phan trang tam, sau nay sua lai lay phan trang tu BE
+  const limit = 2
+  const totalPage = Math.ceil(dataRecipe.length / limit);
+  const start = (currentPage-1) * limit;
+  const end = start + limit;
+  const paginatedData = dataRecipe.slice(start, end);
+
+
 
   useEffect(() => {
     if (status === 'idle') {
       dispatch(fetchRecipe());
+      // dispatch(fetchDataRecipeForUser(currentPage-1))
     }
-  }, [status, dispatch]);
+  }, [status, dispatch, currentPage]);
+
 
   const scroll = (direction) => {
     if (scrollRef.current) {
@@ -36,6 +51,9 @@ const HomePage = () => {
     navigate(`/categories/${id}/recipes`)
   }
 
+  const handleChangePage = (newPage) => {
+    setCurrentPage(newPage)
+  }
   return (
     <div className="bg-white main-content mt-lg-5">
       <Banner />
@@ -93,7 +111,13 @@ const HomePage = () => {
             <h2 className="contetnt-title">Công thức mới</h2>
           </div>
           <div className="list-recipe">
-            <RecipeList data={dataRecipe} />
+            {/*<RecipeList data={dataRecipeTest[currentPage-1]} /> phan trang o BE*/}
+            {/*<RecipeList data={dataRecipe} /> chua phan trang */}
+            <RecipeList data={paginatedData} /> {/*Phan trang tam tai FE*/}
+          </div>
+          <div className="pagination-home mx-auto py-2">
+            {/*<Pagination totalPage={5} currentPage={currentPage} onPageChange={handleChangePage}/>*/}
+            <Pagination totalPage={totalPage} currentPage={currentPage} onPageChange={handleChangePage}/>
           </div>
         </div>
       </WithSidebarLayout>

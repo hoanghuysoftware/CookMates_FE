@@ -15,6 +15,18 @@ export const fetchRecipe = createAsyncThunk(
   },
 );
 
+export const fetchRecipeForUser = createAsyncThunk(
+  'recipes/fetchRecipeForUser',
+  async (page, { getState }) => {
+    const { recipes } = getState();
+    if(recipes.loadPage.includes(page)){
+      return {data: [], fromCache: true, page}
+    }
+    const res = await recipeService.getAllRecipeForUser(page)
+    return {data: res.data, fromCache: false, page}
+  },
+);
+
 export const fetchRecipeById = createAsyncThunk(
   '/recipes/fetchRecipeById',
   async (id, { getState }) => {
@@ -46,9 +58,17 @@ export const updateStatus = createAsyncThunk(
   },
 );
 
+export const updateStatusFavorite = createAsyncThunk(
+  'recipes/updateFavorite',
+  async (idRecipe) => {
+    const response = await recipeService.getRecipeById(idRecipe);
+    return response.data;
+  },
+);
+
 const recipeSlice = createSlice({
   name: 'recipes',
-  initialState: { data: [], status: 'idle', error: null },
+  initialState: { data: [], status: 'idle', error: null , loadPage: []},
   extraReducers: builder => {
     builder
       // Load data recipe
@@ -64,6 +84,7 @@ const recipeSlice = createSlice({
         state.error = action.error.message;
 
       })
+      // get recipe by id
       .addCase((fetchRecipeById.fulfilled), (state, action) => {
         state.status = 'succeeded';
         const exists = state.data.some(recipe => recipe.id === action.payload.id);
@@ -81,6 +102,14 @@ const recipeSlice = createSlice({
 
       // Update status recipe
       .addCase(updateStatus.fulfilled, (state, action) => {
+        state.status = 'succeeded';
+        const index = state.data.findIndex(recipe => recipe.id === action.payload.id);
+        if (index !== -1) {
+          state.data[index] = action.payload;
+        }
+      })
+
+      .addCase(updateStatusFavorite.fulfilled, (state, action) => {
         state.status = 'succeeded';
         const index = state.data.findIndex(recipe => recipe.id === action.payload.id);
         if (index !== -1) {

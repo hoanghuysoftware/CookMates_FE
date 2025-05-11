@@ -5,35 +5,41 @@ import Review from '../components/Review.jsx';
 import { useDispatch, useSelector } from 'react-redux';
 import { useParams } from 'react-router-dom';
 import { useEffect, useState } from 'react';
-import { fetchRecipeById } from '../features/recipeSlice';
+import { fetchRecipeById, updateStatusFavorite } from '../features/recipeSlice';
+import favoriteService from '../service/FavoriteService';
+import { fetchFavoritesByUser } from '../features/favoriteSlice';
 
 const RecipeDetails = () => {
   const dispatch = useDispatch();
   const { id } = useParams();
   const recipe = useSelector(state => state.recipes.data.find(r => r.id === parseInt(id)));
   const status = useSelector(state => state.recipes.status);
-  const [like, setLike] = useState(false);
+
+
+  const currentUser = parseInt(localStorage.getItem("userID"))
+  const [isFavorite, setIsFavorite] = useState(false);
+
+  const handleClickLike = async () => {
+    if (isFavorite) {
+      await favoriteService.removeFavoriteRecipe(currentUser, recipe.id);
+    } else {
+      await favoriteService.addFavoriteRecipe(currentUser, recipe.id);
+    }
+    setIsFavorite(!isFavorite); // Cập nhật UI ngay lập tức
+    dispatch(fetchFavoritesByUser(currentUser)); // update lai ds favorite theo userId
+    dispatch(updateStatusFavorite(recipe.id)) // update lai trang thai favorite cua recipe theo id
+  };
+
   useEffect(() => {
     window.scrollTo(0, 0);
     if (!recipe) {
       dispatch(fetchRecipeById(parseInt(id)));
-    } else if (recipe.favorites) {
-      // can thay id user luu o localStore
-      setLike(recipe.favorites.some(fav => fav.userId === recipe.user.id));
+    }else {
+      const userFav = recipe.favorites.some(fav => fav.userId === currentUser);
+      setIsFavorite(userFav);
     }
-  }, [id, status, recipe, dispatch]);
+  }, [id, status, recipe, dispatch, currentUser]);
 
-
-  const currentUser = parseInt(localStorage.getItem("userID"))
-  const isFavorite  = recipe.favorites.some(fav => fav.userId === currentUser)
-
-  const handleClickLike = () => {
-    console.log(!isFavorite)
-    console.log(currentUser)
-    // tại đây gọi hàm kiẻm tra nếu mà isfavite ==
-    // false thì gọi xóa
-    // true thì goị hàm post đẻ thêm vào
-  };
 
   if (!recipe) return null;
 
@@ -60,7 +66,7 @@ const RecipeDetails = () => {
               <div className="recipe-info__item recipe_like">
                 {isFavorite ?
                   <div onClick={handleClickLike}>
-                    <span>Yêu thich</span>
+                    <span>Đã thich</span>
                     <i className="ms-2 fa-solid fa-heart"></i>
                   </div> :
                   <div onClick={handleClickLike}>
