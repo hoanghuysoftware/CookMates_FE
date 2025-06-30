@@ -21,7 +21,7 @@ const HomePage = () => {
   const { data: dataRecipeTest} = useSelector(state => state.recipeTest); // phan trang tai BE
 
  // phan trang tam, sau nay sua lai lay phan trang tu BE
-  const limit = 2
+  const limit = 5
   const totalPage = Math.ceil(dataRecipe.length / limit);
   const start = (currentPage-1) * limit;
   const end = start + limit;

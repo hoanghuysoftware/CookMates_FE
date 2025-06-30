@@ -2,9 +2,24 @@ import SearchBar from "./SearchBar";
 import "../assets/styles/header.css";
 import { Link } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
+import { useDispatch, useSelector } from 'react-redux';
+import { useEffect } from 'react';
+import { fetchFavoritesByUser } from '../features/favoriteSlice';
 
 const Header = () => {
   const navigate = useNavigate();
+  const dispatch = useDispatch()
+  const {data: dataFavorite, status: statusFavorite} = useSelector(state => state.favorites)
+  const currentUser = localStorage.getItem("userID")
+
+
+  useEffect(() => {
+    if(statusFavorite === 'idle'){
+      dispatch(fetchFavoritesByUser(parseInt(currentUser)))
+    }
+  }, []);
+
+  console.log(dataFavorite)
 
   const handleSearch = (query) => {
     navigate(`/search/${query}`)

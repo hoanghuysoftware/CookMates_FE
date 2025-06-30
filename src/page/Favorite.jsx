@@ -34,7 +34,6 @@ const Favorite = () => {
     console.log(newPage);
   };
 
-  console.log(dataFavorites);
 
   return (
     <div className="bg-white main-content mt-5">
